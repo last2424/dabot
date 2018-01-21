@@ -9,13 +9,13 @@ from fountain import Fountain
 import time
 from sshtunnel import SSHTunnelForwarder
 #cnx = None
-with SSHTunnelForwarder(('212.117.189.3', 22), ssh_pkey='id_rsa', ssh_private_key_password='LA66atituf',
-                        ssh_password='O0qa726dwG', ssh_username='torimori',
+with SSHTunnelForwarder(('', 22), ssh_pkey='', ssh_private_key_password='',
+                        ssh_password='', ssh_username='',
                         remote_bind_address=('localhost', 3306)) as server:
-    cnx = mysql.connector.connect(user='torimori_info', password='LA66atituf', host='localhost',
-                                  port=server.local_bind_port, database='torimori_info')
+    cnx = mysql.connector.connect(user='', password='', host='',
+                                  port=server.local_bind_port, database='')
     cursor = cnx.cursor(buffered=True)
-    da = deviantart.Api("7458", "98cdea34f4c07825335f32870d6f73b6", redirect_uri="http://last2424.ru/answer.php", standard_grant_type="authorization_code")
+    da = deviantart.Api("", "", redirect_uri="", standard_grant_type="authorization_code")
     #create new client with the authorization code grant type
     #The authorization URI: redirect your users to this
     auth_uri = da.auth_uri
@@ -44,7 +44,7 @@ with SSHTunnelForwarder(('212.117.189.3', 22), ssh_pkey='id_rsa', ssh_private_ke
         temp_comments = None
         while True:
             try:
-                comments = da.get_comments(endpoint='deviation', deviationid='99085360-CEEE-BA80-91AF-7B2EE2F19D3F')
+                comments = da.get_comments(endpoint='deviation', deviationid='')
                 comments = comments['thread']
                 if(temp_comments != comments):
                     for i in range(len(comments)):
