@@ -80,7 +80,7 @@ class Shop:
             meanings = []
             ignoring = False
             if (comments[i].replies == 0 and comments[i].hidden == None):
-                list = re.findall('Sale\s(?<=Sale\s).*?(?=<br />|$)', re.sub('&nbsp;', ' ', comments[i].body), re.IGNORECASE)
+                list = re.findall('Sale\s(?<=Sale\s).*?(?=<br />|$)|Sale\s(?<=Sell\s).*?(?=<br />|$)', re.sub('&nbsp;', ' ', comments[i].body), re.IGNORECASE)
                 for j in range(len(list)):
                     list[j] = re.sub('</span>|<span>|<b>|</b>|<hr>|<hr />|</a>|</hr>', '', list[j])
                     list[j] = re.sub('<a\s(?<=<a\s).*?(?=>)>', '', list[j])
