@@ -99,7 +99,7 @@ class Shop:
                     g = re.sub('\s', '', g.group(0))
                     g = re.sub("\'", '', g)
                     g = re.sub('\"', '', g)
-                    sql = ("SELECT id, cost_sell, name, type, thumb, href_id FROM items WHERE text_id=" + g + "")
+                    sql = ("SELECT id, cost_sell, name, type, thumb, href_id FROM items WHERE text_id='" + g + "'")
                     cursor.execute(sql)
                     if (cursor.rowcount > 0):
                         for (item_id, cost, item_name, type, thumb, href_id) in cursor:
