@@ -108,6 +108,7 @@ class Shop:
                             for (count) in cursor:
                                 user_id = None
                                 balance = None
+                                item_name = re.sub('\'', '\\\'', item_name)
                                 if (cursor.rowcount > 0 and count[0] > 0):
                                     sql = ("UPDATE inventory SET count=count-'" + str(c) + "' WHERE owner='" + comments[i].user.username + "' AND item_id='"+str(item_id)+"'")
                                     cursor.execute(sql)
@@ -188,6 +189,7 @@ class Shop:
                                 cursor.execute(sql)
                                 for balance in cursor:
                                     balance = balance[0]
+                                    item_name = re.sub('\'', '\\\'', item_name)
                                     if(balance-(cost*c) >= 0):
                                         sql = ("SELECT count FROM inventory WHERE owner='" + comments[i].user.username + "' AND item_id='"+str(item_id)+"'")
                                         cursor.execute(sql)
