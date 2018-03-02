@@ -1,5 +1,4 @@
-import deviantart, re, mysql.connector, time
-from urllib.parse import urlparse
+import deviantart, re, mysql.connector, time, urllib
 
 class Shop:
     def __init__(self, da, cnx, cursor):
