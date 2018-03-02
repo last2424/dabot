@@ -80,8 +80,8 @@ class Shop:
             meanings = []
             ignoring = False
             if (comments[i].replies == 0 and comments[i].hidden == None):
-                comments[i].body = re.sub(r"(\w+)'s", r"\\\'s", comments[i].body)
-                comments[i].body = re.sub(r'(\w+)"s', r'\\\"s', comments[i].body)
+                comments[i].body = re.sub(r"(\w+)'s", r"\'s", comments[i].body)
+                comments[i].body = re.sub(r'(\w+)"s', r'\"s', comments[i].body)
                 list = re.findall('Sell\s(?<=Sell\s).*?(?=<br />|$)', re.sub('&nbsp;', ' ', comments[i].body), re.IGNORECASE)
                 for j in range(len(list)):
                     list[j] = re.sub('</span>|<span>|<b>|</b>|<hr>|<hr />|</a>|</hr>', '', list[j])
@@ -100,7 +100,7 @@ class Shop:
                     old_name = g.group(0)
                     g = re.sub('\s', '', g.group(0))
                     print(g)
-                    sql = ("SELECT id, cost_sell, name, type, thumb, href_id FROM items WHERE text_id='" + g + "'")
+                    sql = ("SELECT id, cost_sell, name, type, thumb, href_id FROM items WHERE text_id=" + g + "")
                     cursor.execute(sql)
                     if (cursor.rowcount > 0):
                         for (item_id, cost, item_name, type, thumb, href_id) in cursor:
@@ -159,8 +159,8 @@ class Shop:
            meanings = []
            ignoring = False
            if (comments[i].replies == 0 and comments[i].hidden == None):
-                comments[i].body = re.sub(r"(\w+)'s", r"\\\'s", comments[i].body)
-                comments[i].body = re.sub(r'(\w+)"s', r'\\\"s', comments[i].body)
+                comments[i].body = re.sub(r"(\w+)'s", r"\'s", comments[i].body)
+                comments[i].body = re.sub(r'(\w+)"s', r'\"s', comments[i].body)
                 list = re.findall('Buy\s(?<=Buy\s).*?(?=<br />|$)', re.sub('&nbsp;', ' ', comments[i].body), re.IGNORECASE)
                 for j in range(len(list)):
                     list[j] = re.sub('</span>|<span>|<b>|</b>|<hr>|<hr />|</a>|</hr>', '', list[j])
@@ -180,7 +180,7 @@ class Shop:
                     g = re.search('(?<=Buy\s'+str(c)+'\s).*?(?=$)$', list[j], re.IGNORECASE)
                     old_name = g.group(0)
                     g = re.sub('\s', '', g.group(0))
-                    sql = ("SELECT id, cost, name, type, thumb, href_id FROM items WHERE text_id='" + g + "'")
+                    sql = ("SELECT id, cost, name, type, thumb, href_id FROM items WHERE text_id=" + g + "")
                     cursor.execute(sql)
                     if(cursor.rowcount > 0):
                         for (item_id, cost, item_name, type, thumb, href_id) in cursor:
