@@ -97,7 +97,7 @@ class Shop:
                     g = re.search('(?<=Sell\s' + str(c) + '\s).*?(?=$)$', list[j], re.IGNORECASE)
                     old_name = g.group(0)
                     g = re.sub('\s', '', g.group(0))
-                    sql = ("SELECT id, cost_sell, name, type, thumb, href_id FROM items WHERE text_id=%s"%(g))
+                    sql = ("SELECT id, cost_sell, name, type, thumb, href_id FROM items WHERE text_id=" + urllib.parse.quote_plus(g) + "")
                     cursor.execute(sql)
                     if (cursor.rowcount > 0):
                         for (item_id, cost, item_name, type, thumb, href_id) in cursor:
@@ -175,7 +175,7 @@ class Shop:
                     g = re.search('(?<=Buy\s'+str(c)+'\s).*?(?=$)$', list[j], re.IGNORECASE)
                     old_name = g.group(0)
                     g = re.sub('\s', '', g.group(0))
-                    sql = ("SELECT id, cost, name, type, thumb, href_id FROM items WHERE text_id=%s"%(g))
+                    sql = ("SELECT id, cost, name, type, thumb, href_id FROM items WHERE text_id='" + urllib.parse.quote_plus(g) + "'")
                     cursor.execute(sql)
                     if(cursor.rowcount > 0):
                         for (item_id, cost, item_name, type, thumb, href_id) in cursor:
