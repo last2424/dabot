@@ -80,6 +80,8 @@ class Shop:
             meanings = []
             ignoring = False
             if (comments[i].replies == 0 and comments[i].hidden == None):
+                comments[i].body = re.sub('\'', '\\\'', comments[i].body)
+                comments[i].body = re.sub('\"', '\\\"', comments[i].body)
                 list = re.findall('Sell\s(?<=Sell\s).*?(?=<br />|$)', re.sub('&nbsp;', ' ', comments[i].body), re.IGNORECASE)
                 for j in range(len(list)):
                     list[j] = re.sub('</span>|<span>|<b>|</b>|<hr>|<hr />|</a>|</hr>', '', list[j])
@@ -156,6 +158,8 @@ class Shop:
            meanings = []
            ignoring = False
            if (comments[i].replies == 0 and comments[i].hidden == None):
+                comments[i].body = re.sub('\'', '\\\'', comments[i].body)
+                comments[i].body = re.sub('\"', '\\\"', comments[i].body)
                 list = re.findall('Buy\s(?<=Buy\s).*?(?=<br />|$)', re.sub('&nbsp;', ' ', comments[i].body), re.IGNORECASE)
                 for j in range(len(list)):
                     list[j] = re.sub('</span>|<span>|<b>|</b>|<hr>|<hr />|</a>|</hr>', '', list[j])

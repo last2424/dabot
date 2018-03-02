@@ -52,6 +52,8 @@ class Transfer:
                 meanings = []
                 ignoring = False
                 if (comments[i].replies == 0 and comments[i].hidden == None):
+                    comments[i].body = re.sub('\'', '\\\'', comments[i].body)
+                    comments[i].body = re.sub('\"', '\\\"', comments[i].body)
                     list = re.findall('NP\sTransfer\sto\s(?<=NP\sTransfer\sto\s).*?(?=<br />|$)', re.sub('&nbsp;', ' ', comments[i].body), re.IGNORECASE)
                     sql = ("SELECT balance FROM users WHERE username='"+str(comments[i].user.username)+"'")
                     cursor.execute(sql)

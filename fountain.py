@@ -46,6 +46,8 @@ class Fountain:
                 commands_result = []
                 meanings = []
                 if (comments[i].replies == 0 and comments[i].hidden == None):
+                    comments[i].body = re.sub('\'', '\\\'', comments[i].body)
+                    comments[i].body = re.sub('\"', '\\\"', comments[i].body)
                     list = re.search('Try\sthe\sluck', comments[i].body, re.IGNORECASE)
                     if(list != None):
                         list = list.group(0)
