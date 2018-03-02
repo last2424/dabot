@@ -80,21 +80,21 @@ class Shop:
             meanings = []
             ignoring = False
             if (comments[i].replies == 0 and comments[i].hidden == None):
-                list = re.findall('(Sale\s(?<=Sale\s).*?(?=<br />|$))|(Sale\s(?<=Sell\s).*?(?=<br />|$))', re.sub('&nbsp;', ' ', comments[i].body), re.IGNORECASE)
+                list = re.findall('Sell\s(?<=Sell\s).*?(?=<br />|$)', re.sub('&nbsp;', ' ', comments[i].body), re.IGNORECASE)
                 for j in range(len(list)):
                     list[j] = re.sub('</span>|<span>|<b>|</b>|<hr>|<hr />|</a>|</hr>', '', list[j])
                     list[j] = re.sub('<a\s(?<=<a\s).*?(?=>)>', '', list[j])
                     list[j] = re.sub('&nbsp;', ' ', list[j])
                     c = int(re.search('(100000)|(0*\d{1,6})', list[j]).group(0))
-                    b = re.search('(?<=Sale\s).*?(?='+str(c)+')', list[j], re.IGNORECASE)
+                    b = re.search('(?<=Sell\s).*?(?='+str(c)+')', list[j], re.IGNORECASE)
                     if(b.group(0) != ""):
                         ignoring = True
                         break
-                    b = re.search('(?<=Sale\s'+str(c)+').*?(?=\s)', list[j], re.IGNORECASE)
+                    b = re.search('(?<=Sell\s'+str(c)+').*?(?=\s)', list[j], re.IGNORECASE)
                     if (b.group(0) != ""):
                         ignoring = True
                         break
-                    g = re.search('(?<=Sale\s' + str(c) + '\s).*?(?=$)$', list[j], re.IGNORECASE)
+                    g = re.search('(?<=Sell\s' + str(c) + '\s).*?(?=$)$', list[j], re.IGNORECASE)
                     old_name = g.group(0)
                     g = re.sub('\s', '', g.group(0))
                     sql = ("SELECT id, cost_sell, name, type, thumb, href_id FROM items WHERE text_id='" + g + "'")
