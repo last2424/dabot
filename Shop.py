@@ -1,4 +1,4 @@
-import deviantart, re, mysql.connector, time, urllib
+import deviantart, re, mysql.connector, time
 
 class Shop:
     def __init__(self, da, cnx, cursor):
@@ -97,27 +97,30 @@ class Shop:
                     g = re.search('(?<=Sell\s' + str(c) + '\s).*?(?=$)$', list[j], re.IGNORECASE)
                     old_name = g.group(0)
                     g = re.sub('\s', '', g.group(0))
-                    g = re.sub("\'", '', g)
-                    g = re.sub('\"', '', g)
+                    g = re.sub('\'', '\\\'', g)
+                    g = re.sub("\"", "\\\"", g)
                     sql = ("SELECT id, cost_sell, name, type, thumb, href_id FROM items WHERE text_id='" + g + "'")
                     cursor.execute(sql)
                     if (cursor.rowcount > 0):
                         for (item_id, cost, item_name, type, thumb, href_id) in cursor:
+                            print(item_id)
                             sql = ("SELECT count FROM inventory WHERE owner='" + comments[i].user.username + "' AND item_id='"+str(item_id)+"'")
                             cursor.execute(sql)
+                            #print(cursor)
                             for (count) in cursor:
                                 user_id = None
                                 balance = None
-                                item_name = re.sub('\'', '\\\'', item_name)
                                 if (cursor.rowcount > 0 and count[0] > 0):
                                     sql = ("UPDATE inventory SET count=count-'" + str(c) + "' WHERE owner='" + comments[i].user.username + "' AND item_id='"+str(item_id)+"'")
                                     cursor.execute(sql)
                                     sql = ("UPDATE users SET balance=balance+'" + str(cost * c) + "' WHERE username='" +comments[i].user.username + "'")
                                     cursor.execute(sql)
                                     commands_result.append('0')
-                                    sql = ("INSERT INTO inventorylog (username, item, count, note, date) VALUES ('" + comments[i].user.username + "', '" + str(item_name) + "', '" + str(c) + "', 'Selling', now())")
+                                    itName = re.sub('\'', '\\\'', item_name)
+                                    itName = re.sub("\"", '\\\"', itName)
+                                    sql = ("INSERT INTO inventorylog (username, item, count, note, date) VALUES ('" + comments[i].user.username + "', '" + itName + "', '-" + str(c) + "', 'Selling', now())")
                                     cursor.execute(sql)
-                                    sql = ("INSERT INTO transaction (username, count, note, date) VALUES ('" + comments[i].user.username + "', '" + str(cost * c) + "', 'Buying " + str(c) + " " + str(item_name) + "', now())")
+                                    sql = ("INSERT INTO transaction (username, count, note, date) VALUES ('" + comments[i].user.username + "', '" + str(cost * c) + "', 'Selling " + str(c) + " " + itName + "', now())")
                                     cursor.execute(sql)
                                     sql = ("UPDATE users SET last_transaction_time=now() WHERE username='" +comments[i].user.username + "'")
                                     cursor.execute(sql)
@@ -178,8 +181,8 @@ class Shop:
                     g = re.search('(?<=Buy\s'+str(c)+'\s).*?(?=$)$', list[j], re.IGNORECASE)
                     old_name = g.group(0)
                     g = re.sub('\s', '', g.group(0))
-                    g = re.sub("\'", '', g)
-                    g = re.sub('\"', '', g)
+                    g = re.sub('\'', '\\\'', g)
+                    g = re.sub("\"", "\\\"", g)
                     sql = ("SELECT id, cost, name, type, thumb, href_id FROM items WHERE text_id='" + g + "'")
                     cursor.execute(sql)
                     if(cursor.rowcount > 0):
@@ -189,7 +192,6 @@ class Shop:
                                 cursor.execute(sql)
                                 for balance in cursor:
                                     balance = balance[0]
-                                    item_name = re.sub('\'', '\\\'', item_name)
                                     if(balance-(cost*c) >= 0):
                                         sql = ("SELECT count FROM inventory WHERE owner='" + comments[i].user.username + "' AND item_id='"+str(item_id)+"'")
                                         cursor.execute(sql)
@@ -201,11 +203,13 @@ class Shop:
                                             cursor.execute(sql)
                                         sql = ("UPDATE users SET balance=balance-'"+str(cost*c)+"' WHERE username='"+comments[i].user.username+"'")
                                         cursor.execute(sql)
-                                        sql = ("INSERT INTO transaction (username, count, note, date) VALUES ('"+comments[i].user.username+"', '-"+str(cost*c)+"', 'Buying "+str(c)+" "+str(item_name)+"', now())")
+                                        itName = re.sub('\'', '\\\'', item_name)
+                                        itName = re.sub("\"", '\\\"', itName)
+                                        sql = ("INSERT INTO transaction (username, count, note, date) VALUES ('"+comments[i].user.username+"', '-"+str(cost*c)+"', 'Buying "+str(c)+" "+itName+"', now())")
                                         cursor.execute(sql)
                                         sql = ("UPDATE users SET last_transaction_time=now() WHERE username='" +comments[i].user.username + "'")
                                         cursor.execute(sql)
-                                        sql = ("INSERT INTO inventorylog (username, item, count, note, date) VALUES ('"+comments[i].user.username+"', '"+str(item_name)+"', '"+str(c)+"', 'Buying', now())")
+                                        sql = ("INSERT INTO inventorylog (username, item, count, note, date) VALUES ('"+comments[i].user.username+"', '"+itName+"', '"+str(c)+"', 'Buying', now())")
                                         cursor.execute(sql)
                                         commands_result.append('0')
                                         sql = ("SELECT user_id, balance FROM users WHERE username='"+comments[i].user.username+"'")
