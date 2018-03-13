@@ -102,32 +102,27 @@ class Fountain:
                                     user = self.da.get_user(username=username[0])
                                 except DeviantartError:
                                     user = ""
-                                if (str(user.username) == str(comments[i].user.username)):
-                                    sql = (
-                                    "UPDATE users SET username='" + str(comments[i].user.username) + "' WHERE username='" +
-                                    str(username[0]) + "'")
-                                    cursor.execute(sql)
-                                    sql = (
-                                    "UPDATE inventory SET owner='" + comments[i].user.username + "' WHERE owner='" +
-                                    username[0] + "'")
-                                    cursor.execute(sql)
-                                    sql = ("UPDATE transaction SET username='" + comments[
-                                        i].user.username + "' WHERE username='" + username[0] + "'")
-                                    cursor.execute(sql)
-                                    sql = ("UPDATE inventorylog SET username='" + comments[
-                                        i].user.username + "' WHERE username='" + username[0] + "'")
-                                    cursor.execute(sql)
-                                    sql = ("SELECT id FROM transfers WHERE from='" + username[0] + "'")
-                                    cursor.execute(sql)
-                                    for id in cursor:
-                                        sql = ("UPDATE transfers SET from='" + comments[i].user.username + "' WHERE id='" +id[0] + "'")
+                                if (user != "" and user != None):
+                                    if (str(user) == str(comments[i].user.username)):
+                                        sql = ("UPDATE users SET username='" + str(comments[i].user.username) + "' WHERE username='" +str(username[0]) + "'")
                                         cursor.execute(sql)
-                                    sql = ("SELECT id FROM transfers WHERE to='" + username[0] + "'")
-                                    cursor.execute(sql)
-                                    for id in cursor:
-                                        sql = ("UPDATE transfers SET to='" + comments[i].user.username + "' WHERE id='" + id[0] + "'")
+                                        sql = ("UPDATE inventory SET owner='" + comments[i].user.username + "' WHERE owner='" +username[0] + "'")
                                         cursor.execute(sql)
-                                    break
+                                        sql = ("UPDATE transaction SET username='" + comments[i].user.username + "' WHERE username='" + username[0] + "'")
+                                        cursor.execute(sql)
+                                        sql = ("UPDATE inventorylog SET username='" + comments[i].user.username + "' WHERE username='" + username[0] + "'")
+                                        cursor.execute(sql)
+                                        sql = ("SELECT id FROM transfers WHERE from='" + username[0] + "'")
+                                        cursor.execute(sql)
+                                        for id in cursor:
+                                            sql = ("UPDATE transfers SET from='" + comments[i].user.username + "' WHERE id='" +id[0] + "'")
+                                            cursor.execute(sql)
+                                        sql = ("SELECT id FROM transfers WHERE to='" + username[0] + "'")
+                                        cursor.execute(sql)
+                                        for id in cursor:
+                                            sql = ("UPDATE transfers SET to='" + comments[i].user.username + "' WHERE id='" + id[0] + "'")
+                                            cursor.execute(sql)
+                                        break
                             sql = ("SELECT username FROM users WHERE username='" + comments[i].user.username + "'")
                             cursor.execute(sql)
                             if (cursor.rowcount == 0):

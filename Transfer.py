@@ -142,26 +142,27 @@ class Transfer:
                                             user = self.da.get_user(username=username[0])
                                         except DeviantartError:
                                             user = ""
-                                        if (str(user.username) == str(u.username)):
-                                            sql = ("UPDATE users SET username='" + u.username + "' WHERE username='" + username[0] + "'")
-                                            cursor.execute(sql)
-                                            sql = ("UPDATE inventory SET owner='" + u.username + "' WHERE owner='" + username[0] + "'")
-                                            cursor.execute(sql)
-                                            sql = ("UPDATE transaction SET username='" + u.username + "' WHERE username='" + username[0] + "'")
-                                            cursor.execute(sql)
-                                            sql = ("UPDATE inventorylog SET username='" + u.username + "' WHERE username='" + username[0] + "'")
-                                            cursor.execute(sql)
-                                            sql = ("SELECT `id` FROM `transfers` WHERE `from`='"+username[0]+"'")
-                                            cursor.execute(sql)
-                                            for(id) in cursor:
-                                                sql = ("UPDATE `transfers` SET `from`='" + u.username + "' WHERE `id`='" + id[0] + "'")
+                                        if (user != "" and user != None):
+                                            if (str(user) == str(u)):
+                                                sql = ("UPDATE users SET username='" + u.username + "' WHERE username='" + username[0] + "'")
                                                 cursor.execute(sql)
-                                            sql = ("SELECT `id` FROM `transfers` WHERE `to`='" + username[0] + "'")
-                                            cursor.execute(sql)
-                                            for (id) in cursor:
-                                                sql = ("UPDATE `transfers` SET `to`='" + u.username + "' WHERE `id`='" +id[0] + "'")
+                                                sql = ("UPDATE inventory SET owner='" + u.username + "' WHERE owner='" + username[0] + "'")
                                                 cursor.execute(sql)
-                                            break
+                                                sql = ("UPDATE transaction SET username='" + u.username + "' WHERE username='" + username[0] + "'")
+                                                cursor.execute(sql)
+                                                sql = ("UPDATE inventorylog SET username='" + u.username + "' WHERE username='" + username[0] + "'")
+                                                cursor.execute(sql)
+                                                sql = ("SELECT `id` FROM `transfers` WHERE `from`='"+username[0]+"'")
+                                                cursor.execute(sql)
+                                                for(id) in cursor:
+                                                    sql = ("UPDATE `transfers` SET `from`='" + u.username + "' WHERE `id`='" + id[0] + "'")
+                                                    cursor.execute(sql)
+                                                sql = ("SELECT `id` FROM `transfers` WHERE `to`='" + username[0] + "'")
+                                                cursor.execute(sql)
+                                                for (id) in cursor:
+                                                    sql = ("UPDATE `transfers` SET `to`='" + u.username + "' WHERE `id`='" +id[0] + "'")
+                                                    cursor.execute(sql)
+                                                break
                                     sql = ("SELECT username FROM users WHERE username='" + g + "'")
                                     cursor.execute(sql)
                                     if (cursor.rowcount > 0):
@@ -238,8 +239,8 @@ class Transfer:
                                 user = self.da.get_user(username=username[0])
                             except DeviantartError:
                                 user = ""
-                            if(user != ""):
-                                if (str(user.username) == str(comments[i].user.username)):
+                            if(user != "" and user != None):
+                                if (str(user) == str(comments[i].user.username)):
                                     sql = ("UPDATE users SET username='" + str(comments[i].user.username) + "' WHERE username='" + str(username[0]) + "'")
                                     cursor.execute(sql)
                                     sql = ("UPDATE inventory SET owner='" + str(comments[i].user.username) + "' WHERE owner='" + str(username[0]) + "'")

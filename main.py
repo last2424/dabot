@@ -61,7 +61,7 @@ class Main:
                                             except DeviantartError:
                                                 user = ""
                                             if(user != "" and user != None):
-                                                if(str(user.username) == str(comments[i].user.username)):
+                                                if(str(user) == str(comments[i].user.username)):
                                                     sql = ("UPDATE users SET username='"+str(str(comments[i].user.username))+"' WHERE username='"+str(username[0])+"'")
                                                     self.cursor.execute(sql)
                                                     sql = ("UPDATE inventory SET owner='"+str(comments[i].user.username)+"' WHERE owner='"+str(username[0])+"'")
