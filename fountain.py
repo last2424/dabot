@@ -61,7 +61,6 @@ class Fountain:
                                     #date
                                     sql = ("SELECT date FROM transaction WHERE username='"+comments[i].user.username+"' AND note='Magic Fountain' AND count='-1' ORDER BY id DESC LIMIT 1")
                                     cursor.execute(sql)
-                                    print(str(comments[i]) + ' AAAA2')
                                     if(cursor.rowcount > 0):
                                         for(date2) in cursor:
                                             date2 = re.split('-', str(date2[0]))
@@ -221,9 +220,11 @@ class Fountain:
                         sql = ("SELECT id FROM inventory WHERE item_id='" + str(id) + "'")
                         cursor.execute(sql)
                         if(cursor.rowcount == 0):
+                            print(str(self.items[i]))
                             sql = ("INSERT INTO inventory (item_id, owner, count) VALUES ('"+str(id)+"', '"+username+"', '1')")
                             cursor.execute(sql)
                         else:
+                            print(str(self.items[i]))
                             for cell_id in cursor:
                                 sql = ("UPDATE inventory SET count=count+'1' WHERE id='"+str(cell_id[0])+"'")
                                 cursor.execute(sql)
