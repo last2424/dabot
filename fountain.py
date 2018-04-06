@@ -220,11 +220,11 @@ class Fountain:
                         sql = ("SELECT id FROM inventory WHERE item_id='" + str(id) + "'")
                         cursor.execute(sql)
                         if(cursor.rowcount == 0):
-                            print(str(self.items[i]))
+                            print(str(self.items[i]) + "1")
                             sql = ("INSERT INTO inventory (item_id, owner, count) VALUES ('"+str(id)+"', '"+username+"', '1')")
                             cursor.execute(sql)
                         else:
-                            print(str(self.items[i]))
+                            print(str(self.items[i]) + "2")
                             for cell_id in cursor:
                                 sql = ("UPDATE inventory SET count=count+'1' WHERE id='"+str(cell_id[0])+"'")
                                 cursor.execute(sql)
