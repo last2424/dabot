@@ -137,7 +137,7 @@ class Fountain:
                                 id1 = id
                                 balance1 = balance
                             meanings.append([id1, balance1])
-                        print(meanings + " " + comments[i].user.username + " " + commands_result)
+                        print(str(meanings) + " " + str(comments[i].user.username) + " " + str(commands_result))
                         self.create_reply(commands_result=commands_result, meanings=meanings, comment_id=comments[i].commentid)
             self.temp_comments = comments
             time.sleep(20)
