@@ -94,6 +94,14 @@ class Fountain:
                                         meanings.append([id1, balance1, answers2])
                                 else:
                                     commands_result.append('3')
+                                    id1 = 0
+                                    balance1 = 0
+                                    sql = ("SELECT user_id, balance FROM users WHERE username='" + comments[i].user.username + "'")
+                                    cursor.execute(sql)
+                                    for id, balance in cursor:
+                                        id1 = id
+                                        balance1 = balance
+                                    meanings.append([id1, balance1])
                         else:
                             sql = ("SELECT username FROM users ORDER BY user_id ASC")
                             cursor.execute(sql)
