@@ -79,12 +79,12 @@ class Main:
                                                     self.cursor.execute(sql)
                                                     sql = ("UPDATE inventorylog SET username='" + str(comments[i].user.username) + "' WHERE username='" +str(username[0]) + "'")
                                                     self.cursor.execute(sql)
-                                                    sql = ("SELECT id FROM transfers WHERE from='" + str(username[0]) + "'")
+                                                    sql = ("SELECT `id` FROM `transfers` WHERE `from`='" + str(username[0]) + "'")
                                                     self.cursor.execute(sql)
                                                     for id in self.cursor:
                                                         sql = ("UPDATE transfers SET from='"+str(comments[i].user.username)+"' WHERE id='"+str(id[0])+"'")
                                                         self.cursor.execute(sql)
-                                                    sql = ("SELECT id FROM transfers WHERE to='" + str(username[0]) + "'")
+                                                    sql = ("SELECT `id` FROM `transfers` WHERE `to`='" + str(username[0]) + "'")
                                                     self.cursor.execute(sql)
                                                     for id in self.cursor:
                                                         sql = ("UPDATE transfers SET to='"+str(comments[i].user.username)+"' WHERE id='"+str(id[0])+"'")
