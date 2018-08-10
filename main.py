@@ -736,10 +736,12 @@ class Bot:
             print((i+1)/oneprocent)
 
     def tags(self, text):
-        stroke = re.sub('</span>|<b>|</b>|<hr>|<hr />|</hr>|</a>|<sub>|</sub>|<i>|</i>|#|@|:', '', text)
+        stroke = re.sub('</div>|</span>|<b>|</b>|<hr>|<hr />|</hr>|</a>|<sub>|</sub>|<i>|</i>|#|@|:', '', text)
         stroke = re.sub('<a\s(?<=<a\s).*?(?=>)>', '', stroke)
         stroke = re.sub('<span\s(?<=<span\s).*?(?=>)>', '', stroke)
         stroke = re.sub('<span>', '', stroke)
+        stroke = re.sub('<div\s(?<=<div\s).*?(?=>)>', '', stroke)
+        stroke = re.sub('<div>', '', stroke)
         stroke = re.sub('&nbsp;', ' ', stroke)
         stroke = re.sub('<br>|<br/>|<br />|</br>', ' ', stroke)
         return stroke
@@ -747,7 +749,6 @@ class Bot:
 
 #Forest
     def forest_ivent(self):
-        print(-4)
         self.items_forest = ["Leaves", "Acorn", "Unknown Seeds", "Orange Banana", "Shovel",
                       "Ancient Mossy Tori Charm", "Twisted Wooden Scepter"]
         self.chances_forest = {
@@ -786,6 +787,7 @@ class Bot:
             commands_result = []
             meanings = []
             comment.body = self.tags(comment.body)
+            comment.body = re.sub('\s', '', comment.body)
             if (comment.replies == 0 and comment.hidden == None):
                 list = re.search('^Explore$', comment.body, re.IGNORECASE)
                 if (list != None):
